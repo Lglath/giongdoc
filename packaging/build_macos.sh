@@ -166,10 +166,12 @@ if [[ -n "$FFMPEG_FOUND" ]]; then
     info "Embedded ffmpeg runs OK: $("$RES_FF" -hide_banner -version | head -n 1)"
   else
     warn "Embedded ffmpeg failed to run; check 'otool -L \"$RES_FF\"'."
+    [[ "${STRICT_FFMPEG:-0}" == "1" ]] && die "STRICT_FFMPEG=1: embedded ffmpeg must run."
   fi
   if otool -L "$RES_FF" | grep -qE '/(opt/homebrew|usr/local)/'; then
     warn "Embedded ffmpeg still references Homebrew paths; it will only run on Macs with Homebrew ffmpeg."
     warn "Use a static ffmpeg (FFMPEG_URL or FFMPEG_SRC) for a fully portable app."
+    [[ "${STRICT_FFMPEG:-0}" == "1" ]] && die "STRICT_FFMPEG=1: embedded ffmpeg must not depend on Homebrew."
   fi
 fi
 

@@ -18,10 +18,12 @@ jobs:
         include:
           - os: macos-15   # Apple Silicon
             arch: arm64
+            ffarch: arm64
           # macos-13 images were retired by GitHub (Dec 2025); macos-15-intel is the
           # x86_64 replacement. Switch back to macos-13 if your org still has it.
           - os: macos-15-intel   # Intel
             arch: x86_64
+            ffarch: amd64
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     env:
@@ -36,8 +38,15 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install ffmpeg
-        run: brew install ffmpeg
+      - name: Download static ffmpeg (no Homebrew dylibs, runs on any Mac)
+        run: |
+          curl -fsSL "https://ffmpeg.martin-riedl.de/redirect/latest/macos/${{ matrix.ffarch }}/release/ffmpeg.zip" -o "$RUNNER_TEMP/ffmpeg.zip"
+          unzip -o -q "$RUNNER_TEMP/ffmpeg.zip" -d "$RUNNER_TEMP/ff"
+          chmod +x "$RUNNER_TEMP/ff/ffmpeg"
+          otool -L "$RUNNER_TEMP/ff/ffmpeg"
+          "$RUNNER_TEMP/ff/ffmpeg" -hide_banner -version | head -n 1
+          echo "FFMPEG_SRC=$RUNNER_TEMP/ff/ffmpeg" >> "$GITHUB_ENV"
+          echo "STRICT_FFMPEG=1" >> "$GITHUB_ENV"
 
       - name: Determine version
         id: ver
