@@ -205,7 +205,8 @@ trap 'rm -rf "$STAGE"' EXIT
 cp -R "$APP" "$STAGE/"
 ln -s /Applications "$STAGE/Applications"
 rm -f "$DMG"
-hdiutil create -volname "$APP_NAME $VERSION" -srcfolder "$STAGE" \
+case "$ARCH" in arm64) ARCH_LABEL="chip M";; *) ARCH_LABEL="Intel";; esac
+hdiutil create -volname "$APP_NAME $VERSION ($ARCH_LABEL)" -srcfolder "$STAGE" \
   -ov -format UDZO -fs HFS+ "$DMG" >/dev/null
 if [[ -n "${DEVELOPER_ID:-}" ]]; then
   codesign --force --timestamp -s "$DEVELOPER_ID" "$DMG"
