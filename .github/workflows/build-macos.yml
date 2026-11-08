@@ -16,7 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: macos-14   # Apple Silicon
+          - os: macos-15   # Apple Silicon
             arch: arm64
           # macos-13 images were retired by GitHub (Dec 2025); macos-15-intel is the
           # x86_64 replacement. Switch back to macos-13 if your org still has it.
