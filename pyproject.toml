@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "giongdoc"
+version = "1.0.0"
+description = "GiongDoc – ứng dụng chuyển văn bản thành giọng nói (TTS) cho macOS"
+readme = "packaging/README_BUILD.md"
+requires-python = ">=3.11"
+license = { text = "Proprietary" }
+authors = [{ name = "Cuong" }]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: MacOS :: MacOS X",
+    "Environment :: MacOS X",
+    "Topic :: Multimedia :: Sound/Audio :: Speech",
+]
+dependencies = [
+    "PySide6>=6.6,<7",
+    "numpy>=1.26",
+    "edge-tts>=6.1.12",
+]
+
+[project.optional-dependencies]
+audio = ["soundfile>=0.12"]
+custom-voice = [
+    "torch>=2.2",
+    "torchaudio>=2.2",
+    "f5-tts>=1.0",
+]
+coqui = ["coqui-tts>=0.24"]
+dev = ["pytest>=8", "pyinstaller>=6.6"]
+
+[project.gui-scripts]
+giongdoc = "giongdoc.ui.app:main"
+
+[tool.setuptools.packages.find]
+include = ["giongdoc*"]
+
+[tool.setuptools.package-data]
+giongdoc = ["**/*.json", "**/*.txt", "**/*.png", "**/*.svg", "**/*.qss", "**/*.wav"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

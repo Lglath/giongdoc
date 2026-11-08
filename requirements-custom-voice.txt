@@ -1,0 +1,12 @@
+# Optional "custom voice" extra (voice cloning from a consented sample).
+# HEAVY (several GB). NOT bundled into the .app by default; the app soft-imports
+# these packages and enables the feature only when they are importable.
+#
+#   pip install -r requirements.txt -r requirements-custom-voice.txt
+#
+-r requirements.txt
+torch>=2.2
+torchaudio>=2.2
+f5-tts>=1.0
+# Alternative engine (Coqui XTTS v2). Uncomment if you prefer it over F5-TTS:
+# coqui-tts>=0.24

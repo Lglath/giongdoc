@@ -1,0 +1,5 @@
+# GiongDoc runtime dependencies (bundled into the .app)
+PySide6>=6.6,<7          # QtWidgets + QtMultimedia
+numpy>=1.26
+edge-tts>=6.1.12
+soundfile>=0.12          # optional: faster/wider audio decode (libsndfile wheels)
